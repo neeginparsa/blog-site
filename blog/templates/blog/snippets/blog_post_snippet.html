@@ -1,0 +1,71 @@
+<style type="text/css">
+	.card{
+		max-width: 700px;
+		width: 100%;
+	}
+	.card-body{
+		padding: 20px;
+		
+	}
+	.submitbtn{
+		background-color: rgb(168, 76, 172);
+		color: rgb(255, 255, 255);
+		
+	}
+	.submitbtn:hover{
+		background-color: rgb(97, 11, 100);
+		color: rgb(255, 255, 255);
+	}
+	.tiltecard{
+		color: rgb(97, 11, 100);
+		text-decoration: none;
+		
+	}
+	.tiltecard:hover{
+		color: rgb(38, 15, 172);
+	}
+</style>
+
+{% if blog_post%}
+<div class="container">
+	<div class="row">
+		
+		<!-- Blog Post -->
+		<div class="card m-auto">
+			<a href="{% url 'blog:detail' post.slug %}">
+				<img class="card-img-top" src="{{blog_post.image.url}}">
+			</a>
+			
+			<div class="card-body mt-2 mb-2">
+				<a class="tiltecard" href="{% url 'blog:detail' post.slug %}">
+					<h2 class="card-title ">{{blog_post.title}}</h2>
+				</a>
+				<p class="card-text">{{blog_post.body|safe|truncatechars:180}}</p>
+				{% if blog_post.author == request.user %}
+					<a href="{% url 'blog:edit' blog_post.slug %}" class="btn submitbtn">Update</a>
+				{% endif %}
+			</div>
+			<div class="card-footer text-muted">
+			  Updated on {{blog_post.date_updated}} by {{blog_post.author}}
+			</div>
+		</div>
+		
+	</div>
+</div>
+<!--for search bar-->
+{%else%}
+<div class="container">
+	<div class="row">
+		<div class="card m-auto">
+			<div class="card-body m-2 mb-2">
+				<h2 class="card-title">
+					No results
+				</h2>
+				<p class="card-text">There were no result matching your search : "{{query}}."</p>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{%endif%}
